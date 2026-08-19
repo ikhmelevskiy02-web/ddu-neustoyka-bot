@@ -41,6 +41,10 @@ async def main() -> None:
         )
     )
 
+    # Этот деплой использует long polling. Сбрасываем возможный старый webhook,
+    # иначе Telegram отклонит getUpdates с конфликтом 409.
+    await bot.delete_webhook(drop_pending_updates=False)
+
     logger.info("Бот запущен, начинаю polling...")
     await dp.start_polling(bot)
 
